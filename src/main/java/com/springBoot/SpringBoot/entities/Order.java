@@ -1,6 +1,7 @@
 package com.springBoot.SpringBoot.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.springBoot.SpringBoot.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,9 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Sao_Paulo")
     private Instant moment;
 
+    @Enumerated(EnumType.STRING) //especifica pra salvar o nome do enum no banco e não o valor ordinal
+    private OrderStatus status;
+
     @ManyToOne
     @JoinColumn(name = "client_id") //chave estrangeira
     private User client;
@@ -27,9 +31,10 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
+        this.status = orderStatus;
         this.client = client;
     }
 
@@ -48,6 +53,14 @@ public class Order implements Serializable {
 
     public void setMoment(Instant moment) {
         this.moment = moment;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public User getClient() {
