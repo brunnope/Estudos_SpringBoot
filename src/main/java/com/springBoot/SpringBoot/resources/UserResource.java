@@ -1,7 +1,7 @@
 package com.springBoot.SpringBoot.resources;
 
 import com.springBoot.SpringBoot.entities.User;
-import com.springBoot.SpringBoot.repositories.UserRepository;
+import com.springBoot.SpringBoot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,20 +17,15 @@ import java.util.List;
 public class UserResource {
 
      @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @GetMapping()
+    @GetMapping({"", "/"})
     public ResponseEntity<List<User>> findAll(){
-        List<User> usuarios =  userRepository.findAll();
-
-        return ResponseEntity.ok().body(usuarios);
+        return ResponseEntity.ok().body(userService.findAll());
     }
 
      @GetMapping("/{id}")
      public ResponseEntity<User> findById(@PathVariable Long id){
-         User user = new User(1L, "brunno", "brunno@gmail.com", "87991683795",
-                 "brunno123");
-
-         return ResponseEntity.ok().body(user);
+         return ResponseEntity.ok().body(userService.findById(id));
      }
 }
