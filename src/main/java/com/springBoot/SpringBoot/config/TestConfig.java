@@ -1,8 +1,10 @@
 package com.springBoot.SpringBoot.config;
 
+import com.springBoot.SpringBoot.entities.Category;
 import com.springBoot.SpringBoot.entities.Order;
 import com.springBoot.SpringBoot.entities.User;
 import com.springBoot.SpringBoot.entities.enums.OrderStatus;
+import com.springBoot.SpringBoot.repositories.CategoryRepository;
 import com.springBoot.SpringBoot.repositories.OrderRepository;
 import com.springBoot.SpringBoot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override //operações são feitas quando a aplicação rodar
     public void run(String... args) throws Exception {
         User user = new User(null, "cicer", "<EMAIL>", "87991683795",
@@ -35,8 +40,13 @@ public class TestConfig implements CommandLineRunner {
         Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.DELIVERED, user1);
         Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.SHIPPED, user);
 
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
         userRepository.saveAll(Arrays.asList(user, user1));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
     }
 
 }
