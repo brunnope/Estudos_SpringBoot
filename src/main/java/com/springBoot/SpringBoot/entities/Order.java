@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springBoot.SpringBoot.entities.enums.OrderStatus;
 import jakarta.persistence.*;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -45,6 +46,14 @@ public class Order implements Serializable {
         this.moment = moment;
         this.status = orderStatus;
         this.client = client;
+    }
+
+    public Double getTotal(){
+        Double total = 0.0;
+        for (OrderItem item : items) {
+            total += item.getSubTotal();
+        }
+        return total;
     }
 
 
