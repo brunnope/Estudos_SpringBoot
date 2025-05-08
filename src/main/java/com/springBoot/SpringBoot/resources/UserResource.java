@@ -26,15 +26,21 @@ public class UserResource {
      @GetMapping("/{id}")
      public ResponseEntity<User> findById(@PathVariable Long id){
          return ResponseEntity.ok().body(userService.findById(id));
-     }
+    }
 
-     @PostMapping
+    @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user){
         user = userService.insert(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(user.getId()).toUri();
-         return ResponseEntity.created(uri).body(user);
-     }
+        return ResponseEntity.created(uri).body(user);
+    }
+
+     @DeleteMapping("/{id}")
+     public ResponseEntity<Void> deleteById(@PathVariable Long id){
+         userService.deleteById(id);
+         return ResponseEntity.noContent().build();
+    }
 
 
 }
